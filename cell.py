@@ -1,6 +1,8 @@
 from tkinter import Button, Label
 import random
 import settings
+import ctypes
+import sys
 
 class Cell:
     all = []
@@ -10,6 +12,7 @@ class Cell:
         self.is_mine = False
         self.x = x
         self.is_opened = False
+        self.is_flagged = False
         self.y = y
         self.cell_btn = None
 
@@ -50,12 +53,18 @@ class Cell:
             self.reveal()
 
     def right_click_action(self, event): #takes 2 parameters, 'event' gives some background information like the x and y location
-        print("RIGHT CLICKED!")
-
+        if not self.is_flagged:
+            self.cell_btn.configure(bg='green')
+            self.is_flagged = True
+        else:
+            self.cell_btn.configure(bg='SystemButtonFace') #set back to default colour
+            self.is_flagged = False
 
     def explode(self):
         #end the game
         self.cell_btn.configure(bg='red')
+        ctypes.windll.user32.MessageBoxW(0, "BOOM!", "Game Over", 0) #0 gives only 1 button responce "ok" CHANGE THIS TO ADD RESTART
+        sys.exit()
 
     @property #can be used as attribute
     def nearby_cells(self):
@@ -89,10 +98,11 @@ class Cell:
             #change the cell count to be accurate
             if Cell.cell_count_label:
                 Cell.cell_count_label.configure(text=f"Cells Left: {Cell.cell_count}")
-
+            #change the colour back to normal in case it was flagged
+            self.cell_btn.configure(bg="SystemButtonFace")
         #mark the cell as opened so the counter doesn't count it when pressing a nearby cell
         self.is_opened = True
-        
+
     def get_cell(self, x, y):
         for cell in Cell.all:
             if cell.x == x and cell.y == y:
