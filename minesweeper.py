@@ -3,7 +3,6 @@ from cell import Cell
 import settings
 import utility
 
-
 #initialize window and set colour, size and title
 root = Tk() 
 root.configure(background='azure1')
