@@ -40,10 +40,12 @@ game_frame.place(x=utility.width_prct(25), y=utility.height_prct(25))
 
 for x in range(settings.GAME_SIZE):
     for y in range(settings.GAME_SIZE):
-        c = Cell()
+        c = Cell(x, y)
         c.create_btn(game_frame)
         c.cell_btn.grid(
             column=x, row=y
         )
+#after all cells are made, allocate the bombs
+Cell.randomize_mines()
 
 root.mainloop()
