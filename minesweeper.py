@@ -38,10 +38,12 @@ game_frame = Frame(
 )
 game_frame.place(x=utility.width_prct(25), y=utility.height_prct(25))
 
-c1 = Cell()
-c1.create_btn(game_frame)
-c1.cell_btn.place(
-    x=0, y=0
-)
+for x in range(settings.GAME_SIZE):
+    for y in range(settings.GAME_SIZE):
+        c = Cell()
+        c.create_btn(game_frame)
+        c.cell_btn.grid(
+            column=x, row=y
+        )
 
 root.mainloop()
