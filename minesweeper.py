@@ -46,5 +46,8 @@ for x in range(settings.GAME_SIZE):
         )
 #after all cells are made, allocate the bombs
 Cell.randomize_mines()
+#display the cell cound
+Cell.create_cell_count(left_frame)
+Cell.cell_count_label.place(x=0, y=0)
 
 root.mainloop()

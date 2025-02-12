@@ -1,12 +1,15 @@
-from tkinter import Button
+from tkinter import Button, Label
 import random
 import settings
 
 class Cell:
     all = []
+    cell_count_label = None
+    cell_count = settings.CELL_COUNT
     def __init__(self, x, y, is_mine=False):
         self.is_mine = False
         self.x = x
+        self.is_opened = False
         self.y = y
         self.cell_btn = None
 
@@ -25,10 +28,25 @@ class Cell:
         btn.bind('<Button-3>', self.right_click_action) #Button-3 = right click
         self.cell_btn = btn
 
+    @staticmethod
+    def create_cell_count(location):
+        lbl = Label(location, 
+                    text=f"Cells Left:{Cell.cell_count}",
+                    bg='ivory3',
+                    fg='black',
+                    width = 10,
+                    height = 3,
+                    font = 20
+                )
+        Cell.cell_count_label = lbl
+
     def left_click_action(self, event): #takes 2 parameters, 'event' gives some background information like the x and y location
         if self.is_mine:
             self.explode()
         else:
+            if self.nearby_mines == 0:
+                for cell in self.nearby_cells:
+                    cell.reveal()
             self.reveal()
 
     def right_click_action(self, event): #takes 2 parameters, 'event' gives some background information like the x and y location
@@ -64,8 +82,17 @@ class Cell:
         return count
 
     def reveal(self):
-        print(self.nearby_mines)
+        if not self.is_opened:
+            Cell.cell_count -= 1
+            num_of_mines = self.nearby_mines
+            self.cell_btn.configure(text=num_of_mines) 
+            #change the cell count to be accurate
+            if Cell.cell_count_label:
+                Cell.cell_count_label.configure(text=f"Cells Left: {Cell.cell_count}")
 
+        #mark the cell as opened so the counter doesn't count it when pressing a nearby cell
+        self.is_opened = True
+        
     def get_cell(self, x, y):
         for cell in Cell.all:
             if cell.x == x and cell.y == y:
