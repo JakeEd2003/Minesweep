@@ -13,16 +13,26 @@ root.resizable(False, False)
 #create a frame for the title
 title_frame = Frame(
     root,
-    bg='ivory3',  #CHANGE LATER
+    bg='ivory3', 
     width=settings.WIDTH, 
     height=utility.height_prct(25)
 )
 title_frame.place(x=0, y=0)
+game_lbl = Label(
+    title_frame, 
+    text="MINESWEEPER",
+    bg='ivory3',
+    fg='black',
+    width = 20,
+    height = 10,
+    font = 50
+)
+game_lbl.place(x=utility.width_prct(50), y=utility.height_prct(5))
 
 #create left frame
 left_frame = Frame(
     root,
-    bg='ivory3', #CHANGE LATER
+    bg='ivory3', 
     width=utility.width_prct(25),
     height=utility.height_prct(75)
 )
@@ -31,7 +41,7 @@ left_frame.place(x=0, y=utility.height_prct(25))
 #create main frame for game
 game_frame = Frame(
     root,
-    bg='ivory2', #CHANGE LATER
+    bg='ivory2', #
     width=utility.width_prct(75),
     height=utility.height_prct(75)
 )
