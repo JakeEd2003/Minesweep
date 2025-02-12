@@ -51,6 +51,11 @@ class Cell:
                 for cell in self.nearby_cells:
                     cell.reveal()
             self.reveal()
+            if Cell.cell_count == settings.MINE_NUM:
+                ctypes.windll.user32.MessageBoxW(0, "YOU WIN!", "CONGRATULATIONS", 0)
+        #Make it so no action can be performed on an opened cell
+        self.cell_btn.unbind('<Button-1>')
+        self.cell_btn.unbind('<Button-3>')
 
     def right_click_action(self, event): #takes 2 parameters, 'event' gives some background information like the x and y location
         if not self.is_flagged:
@@ -113,7 +118,7 @@ class Cell:
         mines = random.sample(Cell.all, settings.MINE_NUM) #obtains 25 random cells from the All list
         for mine in mines:
             mine.is_mine = True
-    
+            
     #when printing a cell, this formats it in a nice way "Cell(x, y)" instead of addresses 
     def __repr__(self) -> str:
         return f"Cell({self.x}, {self.y})"
